@@ -1,3 +1,5 @@
+import { Input } from "../ui/Input/Input";
+
 import { Redirect } from "react-router-dom";
 import React from "react";
 
@@ -21,9 +23,9 @@ const Login: React.FC = () => {
           LOGIN <button onClick={onClickLogin}>LOGIN</button>
           <div>
             <label htmlFor="email">email</label>
-            <input id="email" {...email} />
+            <Input type="text" autoComplete={true} {...email} />
             <label htmlFor="password">password</label>
-            <input id="password" type="password" autoComplete="off" {...password} />
+            <Input type="password" autoComplete={false} {...password} />
           </div>
         </div>
       )}
