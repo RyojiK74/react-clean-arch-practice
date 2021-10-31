@@ -1,12 +1,14 @@
 import React from "react";
 
-import { login as loginApi, logout as logoutApi } from "../repository/auth-api";
+import { loginInputType } from "../usecase/auth/loginInputType";
+import { loginUseCase } from "../usecase/auth/authUseCase";
+import { logout as logoutApi } from "../repository/auth-api";
 
 const localStorageAuthKey = "todo-authed";
 
 type IAuthContextValue = {
   isAuthenticated: boolean;
-  login: () => void;
+  login: (email: string, password: string) => void;
   logout: () => void;
 };
 
@@ -22,9 +24,13 @@ const useAuthState = (): IAuthContextValue => {
   const isAuthenticatedBefore = localStorage.getItem(localStorageAuthKey) === "true";
   const [isAuthenticated, setAuthed] = React.useState(isAuthenticatedBefore);
 
-  const login = async () => {
+  const login = async (email: string, password: string) => {
     try {
-      await loginApi();
+      const loginForm: loginInputType = {
+        email,
+        password,
+      };
+      await loginUseCase(loginForm);
       localStorage.setItem(localStorageAuthKey, "true");
       setAuthed(true);
     } catch (e) {}

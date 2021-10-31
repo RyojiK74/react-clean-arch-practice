@@ -1,11 +1,12 @@
 import { axiosInit } from "../libs/axios-instance";
+import { loginInputType } from "../usecase/auth/loginInputType";
 
-const login = async () => {
+const login = async ({ email, password }: loginInputType) => {
   const axios = axiosInit();
   await axios.get("/sanctum/csrf-cookie");
   const response = await axios.post("/login", {
-    email: "test@example.com",
-    password: "password",
+    email,
+    password,
   });
 
   if (response.status !== 200) {
@@ -15,7 +16,7 @@ const login = async () => {
 
 const logout = async () => {
   const axios = axiosInit();
-  const response = await axios.post("/logout");
+  const response = await axios.get("/logout");
   if (response.status !== 200) {
     throw new Error("logout failed");
   }
